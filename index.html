@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"><!--<![endif]-->
+<head>
+<!-- Website Template designed by www.downloadwebsitetemplates.co.uk -->
+<meta charset="UTF-8">
+<title>kuy.me - Send SMS</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../images/ico/apple-touch-icon-144.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../images/ico/apple-touch-icon-114.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../images/ico/apple-touch-icon-72.png">
+<link rel="apple-touch-icon-precomposed" href="../images/ico/apple-touch-icon-57.png">
+<link rel="shortcut icon" href="../images/ico/favicon.png">
+<!--[if IE]><![endif]-->
+<link rel="stylesheet" href="../css/main-style.css">
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="../js/owlcarousel.js"></script>
+<script src="../js/uikit.scrollspy.js"></script>
+<script src="../js/main-scripts.js"></script>
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<script>
+function detectEnterSMS(){
+	if(event.keyCode == 13) {
+         sendSMS();
+    }
+}
+function sendSMS(){
+	$("#defaultShorten").fadeOut(400,function(){
+		$("#loadingURL").fadeIn(400,function(){
+			$.get( "sms-api.php?tel="+$("#telID").val(), function(data) {
+				data = JSON.parse(data);
+				if(data.success=="send_complete"){
+					$("#resultURL").html("<p><strong>Send Complete</strong><br>Now SMS send to "+$("#telID").val()+"<br><a href='javascript:backtomain()'>back</a></p>")
+				}else if(data.error=="send_fail"){
+					$("#resultURL").html("<p><strong>Send Fail</strong><br>Fail "+$("#telID").val()+"<br><a href='javascript:backtomain()'>back</a></p>")
+				}else {
+					$("#resultURL").html("<p><strong>System Crash!!</strong><br><a href='javascript:backtomain()'>back</a></p>")
+				}
+				getCredit();
+				$("#resultURL").hide();
+				$("#loadingURL").fadeOut(400,function(){
+					$("#resultURL").fadeIn(400,function(){
+						$("#telID").val("");
+					})
+				})
+			}).error(function(jqXHR, textStatus, errorThrown) {
+				if (textStatus == 'timeout'){
+					$("#resultURL").html("<p style='margin-bottom:20px;'><strong>Can\'t shortened link</strong><br /> The server is not responding.</p><a onclick='shortagain()'>Try again</a>");
+				}
+				if (textStatus == 'error'){
+					$("#resultURL").html("<p style='margin-bottom:20px;'><strong>Can\'t shortened link</strong><br /> "+errorThrown+" </p><a onclick='shortagain()'>Try again</a>");
+				}
+				$("#resultURL").hide();
+				$("#loadingURL").fadeOut(400,function(){
+					$("#resultURL").fadeIn(400,function(){
+					})
+				})
+			});
+		})
+	})
+}
+function backtomain(){
+	$("#resultURL").fadeOut(400,function(){
+		$("#defaultShorten").fadeIn(400,function(){
+		})
+	})
+}
+function getCredit(){
+	$.get("sms-api.php?credit", function(data){
+		$("#credit").html(data);
+	});
+}
+getCredit();
+</script>
+
+</head>
+<body id="backtotop">
+
+<div class="fullwidth clearfix">
+	<div id="topcontainer" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+		
+		<p><span class="fa fa-envelope"></span></p>
+		<h1><span>SMS</span><br />Send SMS</h1>
+		<p>remain credit : <i id="credit"></i></p>
+		
+	</div>
+</div>
+
+<div class="arrow-separator arrow-white"></div>
+
+<div class="fullwidth colour1 clearfix">
+	<div id="maincont" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+		<div id="defaultShorten">
+			<div id="signupform" class="sb-search clearfix">
+				<input id="telID" class="sb-search-input" placeholder="phone number..." type="text" value="" onkeydown="detectEnterSMS(this)" >
+				<button class="formbutton btn-light" onclick="sendSMS()"><span class="fa fa-paper-plane"></span></button>
+			</div> 
+		</div>
+		<div id="loadingURL" style="display:none">
+			<i class="fa fa-refresh fa-spin fa-3x"></i>
+		</div>
+		<div id="resultURL" style="display:none">
+		Result URL
+		</div>
+
+	</div>
+</div>
+
+<div class="arrow-separator arrow-theme"></div>
+
+<div class="fullwidth colour2 clearfix">
+	<div id="maincont" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+		<p>SMS system by <strong>thsms.com</strong>, coding by <strong>pureapp.in.th</strong>, Hosted by <strong>bot-like.com</strong></p>
+	</div>
+</div>
+
+<div class="arrow-separator arrow-themelight"></div>
+
+<div class="fullwidth colour3 clearfix">
+	<div id="quotecont" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+
+        <div id="commentslider" class="owl-carousel">
+            <div class="item">
+                <p>"I have not thing to tell you"</p>
+            	<p class="author">- pureapp.in.th user</p>
+            </div>
+            <div class="item">
+                <p>"I have not thing to tell you."</p>
+            	<p class="author">- bot-like.com user</p>
+            </div>
+            <div class="item">
+                <p>"I have not thing to tell you"</p>
+            	<p class="author">- loveanswer.me Admin</p>
+            </div>
+        </div>
+	
+	</div>
+</div>
+
+<div class="arrow-separator arrow-grey"></div>
+
+<div class="fullwidth clearfix">
+	<div id="footercont" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+
+		<p class="backtotop"><a title="" href="#backtotop"><span class="fa fa-angle-double-up"></span></a></p>
+		<div id="socialmedia" class="clearfix">
+			<ul>
+				<li><a title="facebook fanpage" href="https://www.facebook.com/appmadebypure" rel="external"><span class="fa fa-facebook"></span></a></li>
+				<li><a title="twitter" href="https://www.twitter.com/PakkaponPH" rel="external"><span class="fa fa-twitter"></span></a></li>
+				<li><a title="Google+" href="https://plus.google.com/+pakkaponphongtawee" rel="external"><span class="fa fa-google-plus"></span></a></li>
+				<li><a title="LinkedIn" href="https://www.linkedin.com/profile/view?id=343177184" rel="external"><span class="fa fa-linkedin"></span></a></li>
+				<li><a title="Github" href="https://www.github.com/pureexe" rel="external"><span class="fa fa-github"></span></a></li>
+			</ul>
+		</div>
+		<p>Made by <a href="https://www.pureapp.in.th" rel="external">pureapp.in.th</a> | Hosted by <a href="https://www.bot-like.com" rel="external">bot-like.com</a></p>
+		<p>Base on <a title="Yourls" href="http://yourls.org" rel="external">Yourls</a> | Template by <a title="download website templates" href="http://www.downloadwebsitetemplates.co.uk" rel="external">Download Website Templates</a></p>
+	</div>
+</div>
+   
+</body>
+</html>

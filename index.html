@@ -70,8 +70,11 @@ function backtomain(){
 	})
 }
 function getCredit(){
-	$.get("sms-api.php?credit", function(data){
-		$("#credit").html(data);
+	$.get("http://www.thsms.com/api/rest?method=credit&username=ilek2428&password=ac3086", function(data){
+		var xml = $.parseXML(data);
+		$xml = $( xml );
+		$amount = $xml.find('amount');
+		$("#credit").html($amount);
 	});
 }
 getCredit();
